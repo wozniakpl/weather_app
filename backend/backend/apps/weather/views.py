@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -14,4 +16,12 @@ class WeatherToday(APIView):
         latitude = query_params["lat"]
         longitude = query_params["lon"]
 
-        return Response({"data": WeatherAPI().get_current_weather(latitude, longitude)})
+        def get_data(lat, lon):
+            key = f"{lat}-{lon}"
+            if key in cache:
+                return cache.get(key)
+            data = WeatherAPI().get_current_weather(lat, lon)
+            cache.set(key, data, timeout=60 * 60 * 3)  # 3h
+            return data
+
+        return Response({"data": get_data(latitude, longitude)})

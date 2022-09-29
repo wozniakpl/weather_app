@@ -48,3 +48,20 @@ def test_getting_todays_weather(api_client):
         assert data["coord"]["lon"] == lon
         assert data["weather"][0]["main"] == "Clouds"
         assert data["weather"][0]["description"] == "broken clouds"
+
+
+def test_caching_data(api_client):
+    lat = 22
+    lon = 33
+    url = f"/weather/today/?lat={lat}&lon={lon}"
+    api_mock = MagicMock(return_value=get_dummy_api_response(lat, lon))
+    with patch("backend.apps.weather.api.WeatherAPI.get_current_weather", api_mock):
+        first_response = api_client.get(url)
+        assert api_mock.called
+
+    api_mock = MagicMock()
+    with patch("backend.apps.weather.api.WeatherAPI.get_current_weather", api_mock):
+        second_response = api_client.get(url)
+        assert not api_mock.called
+
+    assert first_response.json() == second_response.json()
