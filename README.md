@@ -17,3 +17,9 @@ A simple, demonstrative app that covers:
 ```sh
 docker-compose up
 ```
+
+### Test
+
+```sh
+docker-compose run --rm backend pytest
+```
