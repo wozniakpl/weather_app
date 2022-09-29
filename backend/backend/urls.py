@@ -20,6 +20,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("backend.apps.account.urls")),
+    path("weather/", include("backend.apps.weather.urls")),
     path("api/token/", jwt_views.TokenObtainPairView.as_view(), name="token-get"),
     path(
         "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token-refresh"

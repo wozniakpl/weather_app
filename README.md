@@ -23,3 +23,11 @@ docker-compose up
 ```sh
 docker-compose run --rm backend pytest
 ```
+
+## Usage
+
+Register: [http://localhost:9000/account/register/](http://localhost:9000/account/register/)
+
+Get token: [http://localhost:9000/api/token/](http://localhost:9000/api/token/)
+
+Get today's weather: [http://localhost:9000/weather/today/?lat=50.0&lon=50.0](http://localhost:9000/weather/today/?lat=50.0&lon=50.0)
