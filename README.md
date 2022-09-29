@@ -31,3 +31,37 @@ Register: [http://localhost:9000/account/register/](http://localhost:9000/accoun
 Get token: [http://localhost:9000/api/token/](http://localhost:9000/api/token/)
 
 Get today's weather: [http://localhost:9000/weather/today/?lat=50.0&lon=50.0](http://localhost:9000/weather/today/?lat=50.0&lon=50.0)
+
+If you want to try setting favourite coords, try this
+```
+# see that without login and favourite coords saved, lat/lon are required
+curl -X GET \
+    -H "Content-Type: application/json" \
+    http://localhost:9000/weather/today/
+
+# register
+curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"username": "test", "password": "test", "first_name": "test", "last_name": "test"}' \
+    http://localhost:9000/account/register/
+
+# obtain token
+curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"username": "test", "password": "test"}' \
+    http://localhost:9000/api/token/
+
+# set favourite coords
+curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>" \
+    -d '{"lat": 50.0, "lon": 50.0}' \
+    http://localhost:9000/account/favourite-coords/
+
+# get today's weather without providing coords
+curl -X GET \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <token>" \
+    http://localhost:9000/weather/today/
+
+```

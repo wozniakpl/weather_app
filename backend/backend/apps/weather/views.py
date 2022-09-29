@@ -3,6 +3,8 @@ from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from django.contrib.auth.models import AnonymousUser
+
 from .api import WeatherAPI
 
 
@@ -10,14 +12,13 @@ class WeatherToday(APIView):
     def get(self, request):
         user = request.user
         query_params = request.query_params
-
         if "lat" in query_params and "lon" in query_params:
             latitude = query_params["lat"]
             longitude = query_params["lon"]
         else:
-            if not user:
+            if not user or isinstance(user, AnonymousUser):
                 return Response({"error": "lat and lon are required"}, 400)
-            if not user.favourite_coords:
+            if not hasattr(user, "favourite_coords"):
                 return Response(
                     {
                         "error": "lat and lon are required ; consider adding your favourite coords "

@@ -9,6 +9,7 @@ DEFAULTS = {
     "POSTGRES_USER": (str, "weather-user"),
     "POSTGRES_PASSWORD": (str, "weather-secret"),
     "POSTGRES_HOST": (str, "db"),
+    "ALLOWED_HOSTS": (list, ["*"]),
 }
 
 env = Env(**DEFAULTS)
