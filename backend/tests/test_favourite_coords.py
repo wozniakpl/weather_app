@@ -7,7 +7,7 @@ def register_and_login(api_client):
     register_response = api_client.post(
         "/account/register/",
         {
-            "username": f"test",
+            "username": "test",
             "password": "AVerySafeAngLong!P4$$word",
             "first_name": "Test",
             "last_name": "User",
@@ -17,7 +17,7 @@ def register_and_login(api_client):
     login_response = api_client.post(
         "/api/token/",
         {
-            "username": f"test",
+            "username": "test",
             "password": "AVerySafeAngLong!P4$$word",
         },
     )
@@ -39,7 +39,7 @@ def test_setting_favourite_coords(api_client):
     user_response = api_client.get("/account/user/")
     assert user_response.status_code == 200
     assert user_response.json()["username"] == "test"
-    assert user_response.json()["favourite_coords"] == None
+    assert user_response.json()["favourite_coords"] is None
 
     lat = 23
     lon = 34
