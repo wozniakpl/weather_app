@@ -15,3 +15,14 @@ class RegisterApiView(generics.GenericAPIView):
             UserSerializer(user, context=self.get_serializer_context()).data,
             201,
         )
+
+
+class UserApiView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return Response(
+            UserSerializer(request.user, context=self.get_serializer_context()).data,
+            200,
+        )
