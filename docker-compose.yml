@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  backend:
+    env_file:
+      - .env
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./backend:/code/
+    command: ./docker-entrypoint.sh
