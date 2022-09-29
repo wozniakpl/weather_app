@@ -87,6 +87,7 @@ DATABASES = {
         "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": env("POSTGRES_HOST"),
         "PORT": 5432,
+        "ATOMIC_REQUESTS": True,
     }
 }
 
