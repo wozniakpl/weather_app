@@ -63,5 +63,4 @@ curl -X GET \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer <token>" \
     http://localhost:9000/weather/today/
-
 ```
