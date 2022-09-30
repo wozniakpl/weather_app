@@ -1,4 +1,4 @@
-FROM python:3.9.12-slim-bullseye
+FROM python:3.9.12-slim-bullseye as base
 
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
@@ -24,3 +24,9 @@ RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit
 ADD . /code/
 
 WORKDIR /code/
+
+FROM base as dev
+
+FROM base as dist
+
+ENTRYPOINT [ "docker-entrypoint.sh", "dist" ]

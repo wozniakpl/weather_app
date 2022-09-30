@@ -73,7 +73,5 @@ Having the permissions for s3, ecs, ecr, etc.:
 
 ```sh
 terraform apply
-./build_prod.sh
-./upload_images.sh
-./deploy.sh
+./upload-to-ecr.sh
 ```

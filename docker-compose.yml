@@ -14,7 +14,7 @@ services:
       - "9000:9000"
     volumes:
       - ./backend:/code/
-    command: ./docker-entrypoint.sh
+    command: ./docker-entrypoint.sh dev
     depends_on:
       - db
 

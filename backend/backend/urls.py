@@ -16,6 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt import views as jwt_views
+from django.http import HttpResponse
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+
+
+class HealthCheck(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, _):
+        return HttpResponse("OK\n", status=200)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -25,4 +36,5 @@ urlpatterns = [
     path(
         "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token-refresh"
     ),
+    path("health", HealthCheck.as_view(), name="health"),
 ]
