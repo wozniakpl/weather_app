@@ -66,3 +66,14 @@ curl -X GET \
     -H "Authorization: Bearer <token>" \
     http://localhost:9000/weather/today/
 ```
+
+## Deploy
+
+Having the permissions for s3, ecs, ecr, etc.:
+
+```sh
+terraform apply
+./build_prod.sh
+./upload_images.sh
+./deploy.sh
+```
