@@ -72,6 +72,12 @@ curl -X GET \
 Having the permissions for s3, ecs, ecr, etc.:
 
 ```sh
-terraform apply
+# from ops
+terragrunt init && terragrunt apply
+# from ops/shared
+terragrunt init && terragrunt apply
+# from ops
 ./upload-to-ecr.sh
+# from ops/dev
+terragrunt init && terragrunt apply
 ```
