@@ -1,3 +1,4 @@
+from this import d
 from django.core.cache import cache
 
 from rest_framework.views import APIView
@@ -28,17 +29,22 @@ def get_coords(query_params, user):
     return latitude, longitude
 
 
+def cached(key, getter):
+    if key in cache:
+        return cache.get(key)
+    data = getter()
+    cache.set(key, data, timeout=60 * 60 * 3)  # 3h
+    return data
+
+
 class WeatherToday(APIView):
     def get(self, request):
         latitude, longitude = get_coords(request.query_params, request.user)
 
         def get_data(lat, lon):
-            key = f"{lat}-{lon}"
-            if key in cache:
-                return cache.get(key)
-            data = WeatherAPI().get_current_weather(lat, lon)
-            cache.set(key, data, timeout=60 * 60 * 3)  # 3h
-            return data
+            return cached(
+                f"{lat}-{lon}-today", lambda: WeatherAPI().get_current_weather(lat, lon)
+            )
 
         return Response({"data": get_data(float(latitude), float(longitude))})
 
@@ -48,11 +54,9 @@ class WeatherNextDays(APIView):
         latitude, longitude = get_coords(request.query_params, request.user)
 
         def get_data(lat, lon):
-            key = f"{lat}-{lon}"
-            if key in cache:
-                return cache.get(key)
-            data = WeatherAPI().get_weather_for_next_days(lat, lon)
-            cache.set(key, data, timeout=60 * 60 * 3)  # 3h
-            return data
+            return cached(
+                f"{lat}-{lon}-next-days",
+                lambda: WeatherAPI().get_weather_for_next_days(lat, lon),
+            )
 
         return Response({"data": get_data(float(latitude), float(longitude))})
