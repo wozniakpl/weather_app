@@ -41,7 +41,7 @@ class WeatherToday(APIView):
     def get(self, request):
         latitude, longitude = get_coords(request.query_params, request.user)
 
-        def get_data(lat, lon):
+        def get_data(lat, lon):  # TODO: typing
             return cached(
                 f"{lat}-{lon}-today", lambda: WeatherAPI().get_current_weather(lat, lon)
             )
@@ -53,10 +53,13 @@ class WeatherNextDays(APIView):
     def get(self, request):
         latitude, longitude = get_coords(request.query_params, request.user)
 
-        def get_data(lat, lon):
+        def get_data(lat, lon):  # TODO: typing
             return cached(
                 f"{lat}-{lon}-next-days",
                 lambda: WeatherAPI().get_weather_for_next_days(lat, lon),
             )
 
         return Response({"data": get_data(float(latitude), float(longitude))})
+
+
+# TODO; error handling

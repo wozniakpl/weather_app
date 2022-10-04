@@ -5,6 +5,7 @@ User = get_user_model()
 
 
 class FavouriteCoords(models.Model):
+    # TODO; one to one
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="favourite_coords"
     )
